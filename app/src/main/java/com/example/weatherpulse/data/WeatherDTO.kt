@@ -59,7 +59,19 @@ data class Main (
     @SerializedName("sea_level"  ) var seaLevel  : Int?    = null,
     @SerializedName("grnd_level" ) var grndLevel : Int?    = null
 
-)
+) {
+    val tempInt: Int
+        get() = temp?.toInt() ?: 0
+
+    val tempMinInt: Int
+        get() = tempMin?.toInt() ?: 0
+
+    val tempMaxInt: Int
+        get() = tempMax?.toInt() ?: 0
+
+    val feelsLikeInt: Int
+        get() = feelsLike?.toInt() ?: 0
+}
 
 data class Wind (
 

@@ -68,8 +68,6 @@ class HomeFragment : Fragment(), OnHomeClickListener {
                         binding.weatherObj = result.data
                     }
                     is Result.Failure -> {
-
-
                     }
                 }
             }
