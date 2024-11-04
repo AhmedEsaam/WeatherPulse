@@ -8,6 +8,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherpulse.R
 import com.example.weatherpulse.data.Result
 import com.example.weatherpulse.data.source.WeatherRepository
@@ -29,6 +31,8 @@ class HomeFragment : Fragment(), OnHomeClickListener {
 
     private lateinit var homeViewModelFactory: HomeViewModelFactory
     private lateinit var viewModel: HomeViewModel
+
+    private lateinit var weatherListAdapter: WeatherListAdapter
 
 
     override fun onCreateView(
@@ -54,6 +58,10 @@ class HomeFragment : Fragment(), OnHomeClickListener {
 
         viewModel = ViewModelProvider(this, homeViewModelFactory).get(HomeViewModel::class.java)
 
+        initUI()
+
+        setUpRecyclerView()
+
 
         lifecycleScope.launch {
 
@@ -71,7 +79,38 @@ class HomeFragment : Fragment(), OnHomeClickListener {
                     }
                 }
             }
-        }
 
+            // Get Weather forecast Data ...................................
+            viewModel.getWeatherForecast()
+            viewModel.forecastResult.collectLatest { result ->
+                when (result) {
+                    Result.Loading -> {
+
+                    }
+                    is Result.Success -> {
+                        weatherListAdapter.submitList(result.data)
+                        weatherListAdapter.notifyDataSetChanged()
+                    }
+                    is Result.Failure -> {
+                    }
+                }
+            }
+        }
+    }
+
+
+    private fun initUI() {
+        binding.lifecycleOwner = this
+    }
+
+    private fun setUpRecyclerView() {
+        weatherListAdapter = WeatherListAdapter(this)
+
+        binding.recyclerHours.apply {
+            adapter = weatherListAdapter
+            layoutManager = LinearLayoutManager(context).apply {
+                orientation = RecyclerView.HORIZONTAL
+            }
+        }
     }
 }

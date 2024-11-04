@@ -8,6 +8,8 @@ import androidx.room.TypeConverters
 import com.example.weatherpulse.data.source.local.WeatherTypeConverter
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
+import java.util.Calendar
+import java.util.Date
 
 @Entity(tableName = "weather_table")
 data class WeatherDTO (
@@ -30,7 +32,46 @@ data class WeatherDTO (
     @SerializedName("pop"        ) var pop        : Int?               = null,
     @SerializedName("dt_txt"     ) var dtTxt      : String?            = null
 
-) : Serializable
+) : Serializable {
+
+    private val date: Date
+        get() = dt?.let { Date(it * 1000L) } ?: Date()
+
+    val day: Int
+        get() = date.let {
+            val calendar = Calendar.getInstance()
+            calendar.time = it
+            calendar.get(Calendar.DAY_OF_MONTH)
+        }
+
+    val month: Int
+        get() = date.let {
+            val calendar = Calendar.getInstance()
+            calendar.time = it
+            calendar.get(Calendar.MONTH) + 1
+        }
+
+    val year: Int
+        get() = date.let {
+            val calendar = Calendar.getInstance()
+            calendar.time = it
+            calendar.get(Calendar.YEAR)
+        }
+
+    val hour: Int
+        get() = date.let {
+            val calendar = Calendar.getInstance()
+            calendar.time = it
+            calendar.get(Calendar.HOUR_OF_DAY) // 24-hour format
+        }
+
+    val minute: Int
+        get() = date.let {
+            val calendar = Calendar.getInstance()
+            calendar.time = it
+            calendar.get(Calendar.MINUTE)
+        }
+}
 
 data class Coord (
 

@@ -79,4 +79,15 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0")
     //Worker
     implementation("androidx.work:work-runtime-ktx:2.9.1")
+
+
+
+    //Timber
+    implementation("com.jakewharton.timber:timber:5.0.1")
+
+    // hamcrest
+    testImplementation("org.hamcrest:hamcrest:2.2")
+    testImplementation("org.hamcrest:hamcrest-library:2.2")
+    androidTestImplementation("org.hamcrest:hamcrest:2.2")
+    androidTestImplementation("org.hamcrest:hamcrest-library:2.2")
 }

@@ -17,7 +17,7 @@ class HomeViewModel(private val weatherRepository: WeatherRepository) : ViewMode
 
     init {
         getCurrentWeather()
-//        getWeatherForecast()
+        getWeatherForecast()
     }
 
     fun getCurrentWeather() = viewModelScope.launch(Dispatchers.IO) {
@@ -29,9 +29,7 @@ class HomeViewModel(private val weatherRepository: WeatherRepository) : ViewMode
 
     fun getWeatherForecast() = viewModelScope.launch(Dispatchers.IO) {
         weatherRepository.getWeatherForecast()
-            .catch { e ->
-                forecastResult.value = Result.Failure(e)
-            }.collect { data ->
+            .collect { data ->
                 forecastResult.value = Result.Success(data)
             }
     }
