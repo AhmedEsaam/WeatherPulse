@@ -34,7 +34,9 @@ data class WeatherDTO (
     @SerializedName("name"       ) var name       : String?            = null,
     @SerializedName("cod"        ) var cod        : Int?               = null,
     @SerializedName("pop"        ) var pop        : Double?            = null,
-    @SerializedName("dt_txt"     ) var dtTxt      : String?            = null
+    @SerializedName("dt_txt"     ) var dtTxt      : String?            = null,
+
+    var isCurrentWeather: Boolean = false
 
 ) : Serializable {
     val dtDateComponents : DateComponents

@@ -13,12 +13,12 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel(private val weatherRepository: WeatherRepository) : ViewModel() {
 
-    val currentWeatherResult : MutableStateFlow<Result<WeatherDTO>> = MutableStateFlow(Result.Loading)
-    val forecastResult : MutableStateFlow<Result<List<WeatherDTO>>> = MutableStateFlow(Result.Loading)
+    val currentWeatherResult: MutableStateFlow<Result<WeatherDTO>> = MutableStateFlow(Result.Loading)
+    val forecastResult: MutableStateFlow<Result<List<WeatherDTO>>> = MutableStateFlow(Result.Loading)
 
     init {
         getCurrentWeather()
-        getWeatherForecast()
+        getForecastWeather()
     }
 
     fun getCurrentWeather() = viewModelScope.launch(Dispatchers.IO) {
@@ -31,8 +31,8 @@ class HomeViewModel(private val weatherRepository: WeatherRepository) : ViewMode
             }
     }
 
-    fun getWeatherForecast() = viewModelScope.launch(Dispatchers.IO) {
-        weatherRepository.getWeatherForecast()
+    fun getForecastWeather() = viewModelScope.launch(Dispatchers.IO) {
+        weatherRepository.getForecastWeather()
             .catch { e ->
                 forecastResult.value = Result.Failure(e)
             }
@@ -40,4 +40,10 @@ class HomeViewModel(private val weatherRepository: WeatherRepository) : ViewMode
                 forecastResult.value = Result.Success(data)
             }
     }
+
+    fun updateWeatherData() {
+        getCurrentWeather()
+        getForecastWeather()
+    }
+
 }

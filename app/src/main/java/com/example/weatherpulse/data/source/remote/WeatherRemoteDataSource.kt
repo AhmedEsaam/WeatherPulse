@@ -5,7 +5,7 @@ import com.example.weatherpulse.data.WeatherDTO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
-class WeatherRemoteDataSource(private var weatherService: WeatherService) : IDataSource {
+class WeatherRemoteDataSource(private var weatherService: WeatherService) : IWeatherRemoteDataSource {
 
     companion object {
         private var instance: WeatherRemoteDataSource? = null
@@ -29,7 +29,7 @@ class WeatherRemoteDataSource(private var weatherService: WeatherService) : IDat
         )
     }
 
-    override suspend fun getWeatherForecast(): Flow<List<WeatherDTO>> {
+    override suspend fun getForecastWeather(): Flow<List<WeatherDTO>> {
         return flowOf(
             weatherService.getForecastJSON(
                 city = "cairo",
@@ -38,5 +38,4 @@ class WeatherRemoteDataSource(private var weatherService: WeatherService) : IDat
             ).body()?.list ?: listOf()
         )
     }
-
 }

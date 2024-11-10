@@ -1,10 +1,10 @@
 package com.example.weatherpulse.data.source.local
 
+import android.util.Log
 import com.example.weatherpulse.data.WeatherDTO
-import com.example.weatherpulse.data.source.IDataSource
 import kotlinx.coroutines.flow.Flow
 
-class WeatherLocalDataSource(private var weatherDAO: WeatherDAO) : IDataSource {
+class WeatherLocalDataSource(private var weatherDAO: WeatherDAO) : IWeatherLocalDataSource {
     companion object {
         private var instance: WeatherLocalDataSource? = null
 
@@ -18,11 +18,30 @@ class WeatherLocalDataSource(private var weatherDAO: WeatherDAO) : IDataSource {
     }
 
     override suspend fun getCurrentWeather(): Flow<WeatherDTO> {
-        TODO("Not yet implemented")
+
+        return weatherDAO.getCurrentWeather()
+
     }
 
-    override suspend fun getWeatherForecast(): Flow<List<WeatherDTO>> {
-        return weatherDAO.getWeatherTimestamps()
+    override suspend fun getForecastWeather(): Flow<List<WeatherDTO>> {
+        return weatherDAO.getForecastWeather()
+    }
+
+    override suspend fun insertCurrentWeather(currentWeather: WeatherDTO): Long {
+        currentWeather.isCurrentWeather = true
+        return weatherDAO.insertCurrentWeather(currentWeather)
+    }
+
+    override suspend fun insertForecastWeather(forecastWeather: List<WeatherDTO>): List<Long> {
+        return weatherDAO.insertForecastWeather(forecastWeather)
+    }
+
+    override suspend fun deleteCurrentWeatherData() {
+        weatherDAO.deleteCurrentWeatherData()
+    }
+
+    override suspend fun deleteForecastWeatherData() {
+        weatherDAO.deleteForecastWeatherData()
     }
 
 }
