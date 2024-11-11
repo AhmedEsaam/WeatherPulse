@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.example.weatherpulse.features.gallery.GalleryFragment"
+        android:name="com.example.weatherpulse.features.locations.view.LocationsFragment"
         android:label="@string/menu_gallery"
         tools:layout="@layout/fragment_gallery" />
 
