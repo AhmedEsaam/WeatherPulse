@@ -2,6 +2,7 @@ package com.example.weatherpulse.features.home.view
 
 import android.content.Context
 import android.net.ConnectivityManager
+import android.net.ConnectivityManager.NetworkCallback
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -30,6 +31,9 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import android.net.Network
 import android.net.NetworkRequest
+import android.os.Handler
+import android.os.Looper
+import android.widget.TextView
 
 class HomeFragment : Fragment(), OnHomeClickListener {
 
@@ -39,6 +43,11 @@ class HomeFragment : Fragment(), OnHomeClickListener {
     private lateinit var viewModel: HomeViewModel
 
     private lateinit var weatherListAdapter: WeatherListAdapter
+
+    private lateinit var connectivityManager: ConnectivityManager
+    private lateinit var networkCallback: NetworkCallback
+    private lateinit var networkStatusIndicator: TextView
+    private val handler = Handler(Looper.getMainLooper())
 
 
     override fun onCreateView(
@@ -69,14 +78,12 @@ class HomeFragment : Fragment(), OnHomeClickListener {
         setUpRecyclerView()
 
 
-        // Setting up ConnectivityManager and NetworkCallback
-//        connectivityManager = requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-//        val networkRequest = NetworkRequest.Builder().build()
-//        connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
 
 //        if (isNetworkAvailable(requireContext())) {
 //            viewModel.updateWeatherData()
 //        }
+
+        checkNetworkConnectivity()
 
 
         // Get Current Weather Data ...................................
@@ -152,7 +159,9 @@ class HomeFragment : Fragment(), OnHomeClickListener {
 
     override fun onDestroyView() {
         super.onDestroyView()
-//        connectivityManager.unregisterNetworkCallback(networkCallback)
+        connectivityManager.unregisterNetworkCallback(networkCallback)
+        handler.removeCallbacksAndMessages(null)
+
     }
 
     private fun initUI() {
@@ -169,6 +178,53 @@ class HomeFragment : Fragment(), OnHomeClickListener {
                 orientation = RecyclerView.HORIZONTAL
             }
         }
+    }
+
+    private fun checkNetworkConnectivity() {
+        networkStatusIndicator = binding.tvNetwork // assuming view binding is used
+
+        // Setting up ConnectivityManager
+        connectivityManager = requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        // Register network callback to monitor connectivity
+        networkCallback = object : NetworkCallback() {
+            override fun onAvailable(network: Network) {
+                handler.post {
+                    networkStatusIndicator.text = getString(R.string.network_success)
+                    networkStatusIndicator.setBackgroundColor(resources.getColor(android.R.color.holo_green_light))
+                    networkStatusIndicator.visibility = View.VISIBLE
+                    handler.postDelayed({ networkStatusIndicator.visibility = View.GONE }, 2000)
+
+                    // Use the initialized ViewModel to update weather data
+                    viewModel.updateWeatherData()
+                }
+            }
+
+            override fun onLost(network: Network) {
+                handler.post {
+                    networkStatusIndicator.text = getString(R.string.network_fail)
+                    networkStatusIndicator.setBackgroundColor(resources.getColor(R.color.redV))
+                    networkStatusIndicator.visibility = View.VISIBLE
+                }
+            }
+        }
+
+        connectivityManager.registerDefaultNetworkCallback(networkCallback)
+
+        // Check the initial network status and update the UI accordingly
+        val isConnected = connectivityManager.activeNetworkInfo?.isConnected == true
+        if (isConnected) {
+            // If network is available, show success
+            networkStatusIndicator.text = getString(R.string.network_success)
+            networkStatusIndicator.setBackgroundColor(resources.getColor(android.R.color.holo_green_light))
+            networkStatusIndicator.visibility = View.VISIBLE
+        } else {
+            // If network is not available, show failure
+            networkStatusIndicator.text = getString(R.string.network_fail)
+            networkStatusIndicator.setBackgroundColor(resources.getColor(R.color.redV))
+            networkStatusIndicator.visibility = View.VISIBLE
+        }
+
     }
 
 //    private lateinit var connectivityManager: ConnectivityManager
