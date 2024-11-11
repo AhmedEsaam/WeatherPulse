@@ -51,6 +51,7 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.legacy.support.v4)
+    implementation(libs.play.services.location)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -80,5 +81,10 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     //Worker
     implementation("androidx.work:work-runtime-ktx:2.9.1")
+    // OpenStreetMap
+    implementation("org.osmdroid:osmdroid-android:6.1.20")
+    // Location
+    implementation("com.google.android.gms:play-services-location:21.1.0")
+
 
 }

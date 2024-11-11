@@ -1,5 +1,7 @@
 package com.example.weatherpulse.features.locations.viewmodel
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weatherpulse.data.Result
@@ -13,12 +15,24 @@ import kotlinx.coroutines.launch
 
 class LocationsViewModel(private val weatherRepository: WeatherRepository) : ViewModel() {
 
+    private val _location = MutableLiveData<Pair<Double, Double>>()
+
+    init {
+        _location.value = Pair(31.2355, 30.0441)
+    }
+
+    val location: LiveData<Pair<Double, Double>>
+        get() = _location
+
+    fun setLocation(lng: Double, lat: Double) {
+        _location.value = Pair(lng, lat)
+    }
+
 //    val currentWeatherResult: MutableStateFlow<Result<WeatherDTO>> = MutableStateFlow(Result.Loading)
 //    val forecastResult: MutableStateFlow<Result<List<WeatherDTO>>> = MutableStateFlow(Result.Loading)
 
     init {
-//        getCurrentWeather()
-//        getForecastWeather()
+
     }
 
 //    fun getCurrentWeather() = viewModelScope.launch(Dispatchers.IO) {
