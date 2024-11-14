@@ -141,7 +141,6 @@ class HomeFragment : Fragment(), OnHomeClickListener {
 //                        binding.recyclerHours.visibility = View.VISIBLE
                         weatherListAdapter.submitList(result.data.take(8))
                         weatherListAdapter.notifyDataSetChanged()
-//                        viewModel.insertListOfProducts(result.data)
                     }
 
                     is Result.Failure -> {

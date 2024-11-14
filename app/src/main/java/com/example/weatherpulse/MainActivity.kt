@@ -12,7 +12,6 @@ import android.os.Looper
 import android.provider.Settings
 import android.util.Log
 import android.view.Menu
-import android.widget.TextView
 import android.widget.Toast
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
@@ -54,9 +53,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var currentAddress: String
-    private lateinit var txtLocation: TextView
-    private lateinit var txtLongitude: TextView
-    private lateinit var txtLatitude: TextView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,7 +77,7 @@ class MainActivity : AppCompatActivity() {
             setOf(
                 R.id.nav_home,
                 R.id.nav_locations,
-                R.id.nav_slideshow,
+                R.id.nav_locationslist,
                 R.id.nav_settings
             ), drawerLayout
         )

@@ -36,7 +36,7 @@ class LocationsFragment : Fragment(), OnLocationsClickListener {
     private lateinit var locationsViewModelFactory: LocationsViewModelFactory
     private lateinit var viewModel: LocationsViewModel
 
-    private lateinit var locationsListAdapter: LocationsListAdapter
+//    private lateinit var locationsListAdapter: LocationsListAdapter
 
     private lateinit var mapView: MapView
     private var marker: org.osmdroid.views.overlay.Marker? = null
@@ -158,23 +158,5 @@ class LocationsFragment : Fragment(), OnLocationsClickListener {
             mapView.invalidate()
         }
     }
-
-//    private val requestPermissionLauncher = registerForActivityResult(
-//        ActivityResultContracts.RequestMultiplePermissions()
-//    ) { permissions ->
-//        permissions.entries.forEach { permission ->
-//            val isGranted = permission.value
-//            if (!isGranted) {
-//                // Permission was denied, handle appropriately
-//            }
-//        }
-//    }
-//
-//    private fun requestPermissions() {
-//        requestPermissionLauncher.launch(arrayOf(
-//            Manifest.permission.ACCESS_FINE_LOCATION,
-//            Manifest.permission.ACCESS_COARSE_LOCATION
-//        ))
-//    }
 
 }

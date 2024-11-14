@@ -14,14 +14,14 @@
     <fragment
         android:id="@+id/nav_locations"
         android:name="com.example.weatherpulse.features.locations.view.LocationsFragment"
-        android:label="@string/menu_locations"
+        android:label="@string/menu_addlocation"
         tools:layout="@layout/fragment_locations" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.weatherpulse.features.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_locationslist"
+        android:name="com.example.weatherpulse.features.locations_list.view.LocationsListFragment"
+        android:label="@string/menu_locations"
+        tools:layout="@layout/fragment_locationslist" />
     <fragment
         android:id="@+id/nav_settings"
         android:name="com.example.weatherpulse.features.settings.SettingsFragment"
